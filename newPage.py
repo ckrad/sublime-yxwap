@@ -63,10 +63,11 @@ class newPageCommand(sublime_plugin.TextCommand):
 		scssFileName = self.SASS_ROOT + '/page/' + pageName + '.scss'
 		ftlFileName = self.FTL_ROOT + '/' + pageName + '.ftl'
 		tddFileName = self.TDD_ROOT + '/' + pageName + '.tdd'
+		moduleName = self.getModuleName(pageName)
 
 		jsFile = self.touch(jsFileName)
 		if jsFile:			
-			jsFile.write(jsTplStr.replace('{yx:module}', self.getModuleName(pageName).title()))
+			jsFile.write(jsTplStr.replace('{yx:module}', moduleName[0].upper() + moduleName[1:len(moduleName)]))
 			jsFile.close()
 			print(jsFileName, '创建成功')
 
@@ -76,7 +77,7 @@ class newPageCommand(sublime_plugin.TextCommand):
 
 		ftlFile = self.touch(ftlFileName)
 		if ftlFile:			
-			ftlFile.write(ftlTplStr.replace('{yx:module}', self.getModuleName(pageName)))
+			ftlFile.write(ftlTplStr.replace('{yx:module}', moduleName))
 			ftlFile.close()
 			print(ftlFileName, '创建成功')
 
