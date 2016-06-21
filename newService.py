@@ -1,8 +1,42 @@
-import sublime, sublime_plugin
+import sublime_plugin
+from .baseCommand import baseCommand
 
-class newServiceCommand(sublime_plugin.TextCommand):
+serviceTplStr = """
+var createService = require('service/createService');
+
+var {yx:serviceName} = createService('{yx:serviceLinkPre}', [{yx:serviceMethods}]);
+
+module.exports = {yx:serviceName};
+"""
+
+xhrTplStr = """
+{"code": 200, "data": []}
+"""
+
+class newServiceCommand(sublime_plugin.TextCommand, baseCommand):
 	def run(self, edit):
-		self.view.window().show_input_panel('请输入服务参数(serviceName, method1, method2...) 例如：wap/item, add, del', '', self.handleIptDone, None, None)
+		self.config()
+		self.view.window().show_input_panel('请输入服务链接前缀 例如：/xhr/u/login', '', self.handleEnterServiceLinkPre, None, None)
 	
-	def handleIptDone(self, argsStr):
-		args = args.strip(' ').split()
+	def handleEnterServiceLinkPre(self, serviceLinkPre):
+		self.serviceLinkPre = serviceLinkPre
+
+		self.view.window().show_input_panel('请输入需要生成的方法, 多个方法用逗号分隔 例如：add, list...', self.handleEnterServiceMethods, None, None)
+
+	def handleEnterServiceMethods(self, serviceMethodsStr):
+		self.serviceMethods = self.splitWordsByComma(serviceMethodsStr)
+
+	def createService:
+		self.touch({
+			fileName: self.getServiceFileName(),
+			content: serviceTplStr
+						.replace('{yx:serviceName}', self.getServiceName())
+						.replace('{yx:serviceLinkPre}', self.serviceLinkPre)
+						.replace('{yx:serviceMethods}', ', '.join(map(self.addQuoteToStr, self.serviceMethods)))
+		})
+
+		for method in self.serviceMethods:
+			self.touch({
+				fileName: self.getXhrFileName(self.serviceLinkPre, self.method),
+				content: xhrTplStr
+			})
