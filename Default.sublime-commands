@@ -1,5 +1,6 @@
 [
   { "caption": "yxwap: new page", "command": "new_page" },
   { "caption": "yxwap: remove page", "command": "remove_page" },
-  { "caption": "yxwap: new service", "command": "new_service"}
+  { "caption": "yxwap: new service", "command": "new_service"},
+  { "caption": "yxwap: remove service", "command": "remove_service"}
 ]

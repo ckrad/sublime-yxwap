@@ -45,24 +45,28 @@ class commandBase:
 
 		print(fileName, '创建成功')
 
-	def rm(self, fileName):
-		if os.path.exists(fileName):
-			if os.path.isdir(fileName):
-				shutil.rm(fileName)
+	def rm(self, path):
+		if os.path.exists(path):
+			if os.path.isdir(path):
+				shutil.rmtree(path)
 			else:
-				os.remove(fileName)
-			print(fileName, '移除成功')
+				os.remove(path)
+			print(path, '移除成功')
 		else:
-			print(fileName, '不存在')
+			print(path, '不存在')
 
 	def open(self, fileName):
 		if os.path.exists(fileName):
 			self.view.window().open_file(fileName)
 
-	def pathToModuleName(self, path, allTitle=False): 
+	def pathToModuleName(self, path, allTitle=False):
 		str = ''
-		for i, name in enumerate(pageName.split('/')):
-			if i != 0 || allTitle:
+
+		if path[0] == '/':
+			path = path[1:len(path)]
+		
+		for i, name in enumerate(path.split('/')):
+			if i != 0 or allTitle == True:
 				name = name.title()
 
 			str += name
@@ -73,7 +77,7 @@ class commandBase:
 		return self.JS_ROOT + '/service/' + self.getServiceName(serviceLinkPre) + '.js'
 
 	def getServiceName(self, serviceLinkPre):
-		return self.pathToModuleName(self.replace('/xhr', '')) + 'Service'
+		return self.pathToModuleName(serviceLinkPre.replace('/xhr', '')) + 'Service'
 
 	def addQuoteToStr(self, str):
 		return '\'' + str + '\''
@@ -82,7 +86,7 @@ class commandBase:
 		return self.getXhrDir(serviceLinkPre) + '/' +  method + '.json'
 
 	def getXhrDir(self, serviceLinkPre):
-		return self.XHR_ROOT + '/' + serviceLinkPre
+		return self.XHR_ROOT + '/' + serviceLinkPre.replace('/xhr', '')
 
 	def splitWordsByComma(self, str):
 		words = str.split(',')
