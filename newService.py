@@ -28,16 +28,20 @@ class newServiceCommand(sublime_plugin.TextCommand, commandBase):
 		self.createService()
 
 	def createService(self):
+		jsFileName = self.getServiceFileName(self.serviceLinkPre) 
 		self.touch({
-			'fileName': self.getServiceFileName(self.serviceLinkPre),
+			'fileName': jsFileName,
 			'content': serviceTplStr
 						.replace('{yx:serviceName}', self.getServiceName(self.serviceLinkPre))
 						.replace('{yx:serviceLinkPre}', self.serviceLinkPre)
 						.replace('{yx:serviceMethods}', ', '.join(map(self.addQuoteToStr, self.serviceMethods)))
 		})
+		self.open(jsFileName)
 
 		for method in self.serviceMethods:
+			jsonFile = self.getXhrFileName(self.serviceLinkPre, method)
 			self.touch({
-				'fileName': self.getXhrFileName(self.serviceLinkPre, method),
+				'fileName': jsonFile,
 				'content': xhrTplStr
 			})
+			self.open(jsonFile)
