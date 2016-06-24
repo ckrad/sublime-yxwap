@@ -4,7 +4,6 @@ import shutil
 
 class commandBase:
 	def config(self):
-		self.PROJECT_NAME = 'yanxuan-wap'
 		self.PROJECT_ROOT = self.getProjectRoot()
 		self.JS_ROOT = self.PROJECT_ROOT + '/src/main/webapp/js/src'
 		self.SASS_ROOT = self.PROJECT_ROOT + '/src/main/webapp/style/scss'
@@ -13,13 +12,7 @@ class commandBase:
 		self.XHR_ROOT = self.PROJECT_ROOT + '/src/test/mock/xhr'
 
 	def getProjectRoot(self):
-		fileName = os.getcwd()
-		index = fileName.find(self.PROJECT_NAME)
-
-		if index > -1:
-			return fileName[0:index] + self.PROJECT_NAME
-
-		return -1
+		return sublime.active_window().folders()[0]
 
 	def fixSlashIfInWin(self, str):
 		if sublime.platform():
