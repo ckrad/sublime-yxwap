@@ -47,6 +47,10 @@ tddTplStr = """{
 }
 """
 
+scssTplStr = """@import "compass";
+@import "mixins";
+"""
+
 class newPageCommand(sublime_plugin.TextCommand, commandBase):
 	def run(self, edit):
 		self.config()
@@ -69,7 +73,9 @@ class newPageCommand(sublime_plugin.TextCommand, commandBase):
 				'content': ftlTplStr.replace('{yx:module}', moduleName)
 			},
 			{
-				'fileName': scssFileName
+				'fileName': scssFileName,
+				'content': scssTplStr
+
 			},
 			{
 				'fileName': jsFileName, 
