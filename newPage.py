@@ -59,7 +59,7 @@ class newPageCommand(sublime_plugin.TextCommand, commandBase):
 	def handleIptDone(self, pageName):
 		jsFileName = self.JS_ROOT + '/page/' + pageName + '.jsx'
 		scssFileName = self.SASS_ROOT + '/page/' + pageName + '.scss'
-		ftlFileName = self.FTL_ROOT + '/' + pageName + '.ftl'
+		ftlFileName = self.FTL_ROOT + '/tmpl/' + pageName + '.ftl'
 		tddFileName = self.TDD_ROOT + '/' + pageName + '.tdd'
 		moduleName = self.pathToModuleName(pageName)
 
